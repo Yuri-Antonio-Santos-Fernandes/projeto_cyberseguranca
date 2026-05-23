@@ -1,0 +1,17 @@
+# Data Lineage
+
+```mermaid
+flowchart LR
+    A[incidents_master.csv] --> D[Bronze ingestão + metadados]
+    B[financial_impact.csv] --> D
+    C[market_impact.csv] --> D
+    D --> E[Validações de qualidade Bronze]
+    E --> F[Bronze aprovada]
+    F --> G[Prata limpeza e padronização]
+    G --> H[Features e label]
+    H --> I[silver_master.parquet]
+    H --> J[Filtro anti-leakage]
+    J --> K[silver_master_ml.parquet]
+    H --> L[Gráficos e relatórios]
+
+```
