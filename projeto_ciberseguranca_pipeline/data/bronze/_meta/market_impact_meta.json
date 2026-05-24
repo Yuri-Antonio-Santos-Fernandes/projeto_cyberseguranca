@@ -7,7 +7,7 @@
   "num_columns": 35,
   "file_hash_sha256": "d7f4ef0645bbc50f9e4cd159800f1f3f69f87fb5a9d0489f987f1ebc0fb827c1",
   "file_size_bytes": 109318,
-  "ingestion_ts_utc": "2026-05-23T17:29:30.694879+00:00",
+  "ingestion_ts_utc": "2026-05-24T03:03:05.407793+00:00",
   "columns": [
     "incident_id",
     "stock_ticker",

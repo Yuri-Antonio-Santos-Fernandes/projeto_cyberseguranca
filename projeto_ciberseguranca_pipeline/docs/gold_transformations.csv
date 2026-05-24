@@ -1,0 +1,11 @@
+Coluna(s),Técnica,Justificativa
+company_revenue_usd,Outlier — Winsorization IQR,128 outliers extremos; capping preserva a linha e controla influência no scaler
+employee_count,Outlier — Winsorization IQR,128 outliers extremos; mesma justificativa da receita
+"company_revenue_usd, employee_count, price_7d_before, volume_avg_30d_baseline, pre_incident_volatility_30d",Scaling — RobustScaler,Escalas muito distintas; RobustScaler usa mediana/IQR e é robusto a outliers residuais
+"company_revenue_usd, employee_count, price_7d_before, volume_avg_30d_baseline, pre_incident_volatility_30d",Missing — SimpleImputer(median),Variáveis numéricas com nulos; mediana é robusta a outliers e calculada apenas no treino
+"attack_vector_primary, attribution_confidence, porte_empresa, industry_primary, data_source_type, data_type","Missing — SimpleImputer(constant=""nao_informado"")",Nulos em categóricas representam ausência de informação — categoria explícita é preferível a moda
+"attack_vector_primary, attribution_confidence, porte_empresa",Encoding 1 — OrdinalEncoder,"Categorias com ordem natural (sofisticação do ataque, certeza de atribuição, porte)"
+"industry_primary, data_source_type, data_type",Encoding 2 — OneHotEncoder (drop=first),Categorias nominais sem ordem; drop=first evita multicolinearidade
+"is_public_company, incident_date_estimated, earnings_announcement_within_7d, flag_ransomware, flag_atribuicao_conhecida",Bool → numérico (SimpleImputer most_frequent),Flags binários; conversão direta sem encoding adicional
+"incident_id, company_name, stock_ticker, attack_chain, attributed_group, systems_affected, data_source_primary, data_source_secondary, notes, cpi_index_used, ransom_source, incident_date, industry_secondary, direct_loss_method",Descarte — alta cardinalidade / texto livre / leakage,Colunas sem poder preditivo padronizável ou marcadas na checklist anti-leakage
+Todas as colunas marcadas na checklist Parte 4,Leakage — removidas pelo silver_master_ml.parquet,Remoção feita na Prata; Gold parte do silver_master_ml já sanitizado
