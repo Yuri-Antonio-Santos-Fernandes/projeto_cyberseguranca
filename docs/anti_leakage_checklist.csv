@@ -1,0 +1,53 @@
+dataset,column,risk_type,rationale,action
+incidents_master,quality_score,retroativo,score calculado após curadoria do caso,remover
+incidents_master,quality_grade,retroativo,faixa derivada após avaliação do caso,remover
+incidents_master,review_flag,retroativo,sinal de revisão humana posterior,remover
+incidents_master,discovery_date,futuro,informação conhecida após o incidente,remover
+incidents_master,disclosure_date,futuro,informação conhecida após o incidente,remover
+incidents_master,updated_at,técnico/retroativo,carimbo de atualização posterior,remover
+incidents_master,created_at,técnico,"carimbo de carga/cadastro, sem valor preditivo",remover
+incidents_master,dias_ate_descoberta,futuro,derivada de discovery_date,remover
+incidents_master,dias_ate_divulgacao,futuro,derivada de disclosure_date,remover
+incidents_master,downtime_hours,target leakage,usado na definição do label de alto impacto,remover_do_ml
+incidents_master,data_compromised_records,target leakage,usado na definição do label de alto impacto,remover_do_ml
+financial_impact,direct_loss_usd,desfecho,valor conhecido após avaliação financeira,remover_do_ml
+financial_impact,ransom_demanded_usd,desfecho,evento posterior ao incidente,remover_do_ml
+financial_impact,ransom_paid_usd,desfecho,evento posterior ao incidente,remover_do_ml
+financial_impact,recovery_cost_usd,desfecho,custo posterior ao incidente,remover_do_ml
+financial_impact,legal_fees_usd,desfecho,custo posterior ao incidente,remover_do_ml
+financial_impact,regulatory_fine_usd,desfecho,desdobramento regulatório posterior,remover_do_ml
+financial_impact,insurance_payout_usd,desfecho,valor posterior ao incidente,remover_do_ml
+financial_impact,total_loss_usd,desfecho consolidado,agrega consequências futuras,remover_do_ml
+financial_impact,total_loss_method,desfecho consolidado,metadado de cálculo posterior,remover_do_ml
+financial_impact,total_loss_lower_bound,desfecho consolidado,estimativa posterior,remover_do_ml
+financial_impact,total_loss_upper_bound,desfecho consolidado,estimativa posterior,remover_do_ml
+financial_impact,inflation_adjusted_usd,desfecho consolidado,valor ajustado retroativamente,remover_do_ml
+financial_impact,updated_at,técnico/retroativo,carimbo de atualização posterior,remover_do_ml
+financial_impact,created_at,técnico,carimbo operacional,remover_do_ml
+financial_impact,proporcao_seguro,desfecho derivado,derivada de insurance_payout e total_loss,remover_do_ml
+financial_impact,flag_resgate_pago,desfecho derivado,só conhecido após o caso,remover_do_ml
+market_impact,price_disclosure_day,futuro,preço observado na divulgação,remover_do_ml
+market_impact,price_1d_after,futuro,preço posterior ao evento,remover_do_ml
+market_impact,price_7d_after,futuro,preço posterior ao evento,remover_do_ml
+market_impact,price_30d_after,futuro,preço posterior ao evento,remover_do_ml
+market_impact,volume_disclosure_day,futuro,volume observado na divulgação,remover_do_ml
+market_impact,sector_return_same_period,futuro,janela posterior ao evento,remover_do_ml
+market_impact,abnormal_return_1d,futuro,retorno calculado após divulgação,remover_do_ml
+market_impact,abnormal_return_7d,futuro,retorno calculado após divulgação,remover_do_ml
+market_impact,abnormal_return_30d,futuro,retorno calculado após divulgação,remover_do_ml
+market_impact,car_neg1_to_pos1,futuro,janela de evento com informação posterior,remover_do_ml
+market_impact,car_0_to_7,futuro,janela de evento posterior,remover_do_ml
+market_impact,car_0_to_30,futuro,janela de evento posterior,remover_do_ml
+market_impact,car_0_to_90,futuro,janela de evento posterior,remover_do_ml
+market_impact,t_statistic_1d,futuro,estatística calculada após o evento,remover_do_ml
+market_impact,p_value_1d,futuro,estatística calculada após o evento,remover_do_ml
+market_impact,t_statistic_30d,futuro,estatística calculada após o evento,remover_do_ml
+market_impact,p_value_30d,futuro,estatística calculada após o evento,remover_do_ml
+market_impact,market_cap_at_disclosure,futuro,market cap observado na divulgação,remover_do_ml
+market_impact,volume_ratio_disclosure,futuro,derivado da divulgação,remover_do_ml
+market_impact,post_incident_volatility_30d,futuro,volatilidade após o incidente,remover_do_ml
+market_impact,days_to_price_recovery,futuro,desfecho posterior,remover_do_ml
+market_impact,aumento_volatilidade,futuro,derivada de volatilidade pós-incidente,remover_do_ml
+market_impact,flag_queda_acentuada,futuro,derivada de abnormal_return pós-evento,remover_do_ml
+market_impact,updated_at,técnico/retroativo,carimbo de atualização posterior,remover_do_ml
+market_impact,created_at,técnico,carimbo operacional,remover_do_ml
