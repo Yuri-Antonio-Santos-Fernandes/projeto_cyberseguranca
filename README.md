@@ -1,6 +1,6 @@
 # Projeto de Engenharia de Dados em Cibersegurança
 
-Este pacote entrega um pipeline simples com camadas **Bronze** e **Prata** a partir dos datasets:
+Este pacote entrega um pipeline simples com camadas **Bronze**, **Prata** e **Gold** a partir dos datasets:
 
 - `incidents_master.csv`
 - `financial_impact.csv`
