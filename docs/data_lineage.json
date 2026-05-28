@@ -1,6 +1,6 @@
 {
   "pipeline": "cybersecurity_bronze_silver_gold_mlready",
-  "generated_at_utc": "2026-05-28T11:02:41.481147+00:00",
+  "generated_at_utc": "2026-05-28T11:07:35.298167+00:00",
   "nodes": [
     {
       "id": "src_inc",

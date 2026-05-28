@@ -1,6 +1,6 @@
 # Relatório de qualidade - camadas Prata e Ouro
 
-Gerado em UTC: 2026-05-28T11:02:41.444177+00:00
+Gerado em UTC: 2026-05-28T11:07:35.260989+00:00
 
 ## Visão geral
 

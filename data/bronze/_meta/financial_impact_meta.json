@@ -7,7 +7,7 @@
   "num_columns": 23,
   "file_hash_sha256": "9e375eb6f35b70d40166ae03e62cfe809d3e976bb9951498e6f5f2ce78b46679",
   "file_size_bytes": 170578,
-  "ingestion_ts_utc": "2026-05-28T11:02:33.210044+00:00",
+  "ingestion_ts_utc": "2026-05-28T11:07:27.360692+00:00",
   "columns": [
     "incident_id",
     "direct_loss_usd",
