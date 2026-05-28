@@ -54,3 +54,11 @@
 | market_impact | flag_queda_acentuada | futuro | remover_do_ml | derivada de abnormal_return pós-evento |
 | market_impact | updated_at | técnico/retroativo | remover_do_ml | carimbo de atualização posterior |
 | market_impact | created_at | técnico | remover_do_ml | carimbo operacional |
+
+## Atualização da camada Ouro
+
+- O split treino/teste é realizado antes de imputação, encoding, scaling e tratamento de outliers.
+- Os limites de Winsorization por IQR são calculados exclusivamente no treino e aplicados no teste sem refit.
+- O `ColumnTransformer` é ajustado com `fit` apenas no treino e aplicado no teste com `transform`.
+- Colunas removidas antes da modelagem: `incident_id, company_name, stock_ticker, attack_chain, attributed_group, systems_affected, data_source_primary, data_source_secondary, notes, cpi_index_used, ransom_source, incident_date, industry_secondary, direct_loss_method, country_hq, attack_vector_secondary, sector_index`.
+- Artefato persistido: `data/gold/preprocessor.pkl`, com colunas removidas, limites de outlier, transformador e nomes das features.

@@ -8,7 +8,7 @@
     "num_columns": 36,
     "file_hash_sha256": "9819d9ad6baeadca4c503d1146def6504da32e42b9e14e38b0008b24ffc84225",
     "file_size_bytes": 438941,
-    "ingestion_ts_utc": "2026-05-24T03:03:05.379693+00:00",
+    "ingestion_ts_utc": "2026-05-28T11:02:33.107478+00:00",
     "columns": [
       "incident_id",
       "company_name",
@@ -58,7 +58,7 @@
     "num_columns": 23,
     "file_hash_sha256": "9e375eb6f35b70d40166ae03e62cfe809d3e976bb9951498e6f5f2ce78b46679",
     "file_size_bytes": 170578,
-    "ingestion_ts_utc": "2026-05-24T03:03:05.397606+00:00",
+    "ingestion_ts_utc": "2026-05-28T11:02:33.210044+00:00",
     "columns": [
       "incident_id",
       "direct_loss_usd",
@@ -95,7 +95,7 @@
     "num_columns": 35,
     "file_hash_sha256": "d7f4ef0645bbc50f9e4cd159800f1f3f69f87fb5a9d0489f987f1ebc0fb827c1",
     "file_size_bytes": 109318,
-    "ingestion_ts_utc": "2026-05-24T03:03:05.407793+00:00",
+    "ingestion_ts_utc": "2026-05-28T11:02:33.218847+00:00",
     "columns": [
       "incident_id",
       "stock_ticker",

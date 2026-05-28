@@ -1,101 +1,143 @@
 # Projeto de Engenharia de Dados em Cibersegurança
 
-Este pacote entrega um pipeline simples com camadas **Bronze**, **Prata** e **Gold** a partir dos datasets:
+Pipeline de engenharia de dados para análise de incidentes de cibersegurança, com camadas **Bronze**, **Prata**, **Ouro** e dataset **ML-ready**. O projeto integra bases de incidentes, impacto financeiro e impacto de mercado; aplica validações de qualidade; gera análises exploratórias; prepara features para machine learning; treina modelos de Árvore de Decisão; e inclui uma refatoração de etapas do pipeline com PySpark.
+
+## Bases utilizadas
 
 - `incidents_master.csv`
 - `financial_impact.csv`
 - `market_impact.csv`
 
-## O que foi entregue
-
-- **Notebook principal consolidado:** `pipeline_ciberseguranca.ipynb`
-- **Camada Bronze em Parquet** com metadados de ingestão
-- **Relatório de qualidade da Bronze** com regras automáticas
-- **Camada Prata em Parquet**
-- **Dataset final ML-ready:** `data/silver/silver_master_ml.parquet`
-- **Checklist anti-leakage**
-- **Data lineage** em JSON, Mermaid e PNG
-- **4 gráficos exploratórios**
-- **README** com instruções de execução
-
-## Estrutura
+## Estrutura do projeto
 
 ```text
-projeto_ciberseguranca_pipeline/
+projeto_cyberseguranca_corrigido/
+├── bronze.ipynb
+├── silver.ipynb
 ├── pipeline_ciberseguranca.ipynb
 ├── data/
 │   ├── raw/
 │   ├── bronze/
+│   ├── silver/
 │   │   ├── incidents_master/
 │   │   ├── financial_impact/
 │   │   ├── market_impact/
-│   │   ├── _meta/
-│   │   └── _quality/
-│   └── silver/
-│       ├── incidents_master/
-│       ├── financial_impact/
-│       ├── market_impact/
-│       ├── silver_master.parquet
-│       └── silver_master_ml.parquet
+│   │   ├── silver_master.parquet
+│   │   └── silver_master_ml.parquet
+│   ├── gold/
+│   │   ├── gold_train.parquet
+│   │   ├── gold_test.parquet
+│   │   └── preprocessor.pkl
+│   └── pyspark_refactor/
 ├── docs/
-└── reports/
-    └── figures/
+│   ├── anti_leakage_checklist.md
+│   ├── data_lineage.md
+│   ├── data_lineage.json
+│   ├── eda_interpretations.md
+│   ├── gold_transformations.csv
+│   ├── quality_report_silver_gold.md
+│   ├── pyspark_refactor_notes.md
+│   └── lauda_checklist.md
+├── models/
+│   ├── decision_tree_gold_best.pkl
+│   └── decision_tree_silver_baseline.pkl
+├── reports/
+│   ├── model_metrics.csv
+│   ├── model_comparison_silver_gold.csv
+│   └── figures/
+├── scripts/
+│   ├── build_gold_ml_reports.py
+│   └── pyspark_refactor.py
+└── requirements.txt
 ```
 
-## Requisitos
+## Ambiente
 
-Recomendado usar Python 3.10+ com:
+Recomendado usar Python 3.10+.
 
-- pandas
-- numpy
-- matplotlib
-- pyarrow
-- notebook / jupyter
+```bash
+pip install -r requirements.txt
+```
+
+Para executar a etapa de PySpark, o ambiente precisa ter Java disponível além do pacote `pyspark`.
 
 ## Como executar
 
-1. Abra a pasta do projeto.
-2. Instale as dependências:
-   `pip install -r requirements.txt`
-3. Execute o notebook principal:
-   `jupyter notebook pipeline_ciberseguranca.ipynb`
+### Notebook principal
 
-## Regras da Bronze
+```bash
+jupyter notebook pipeline_ciberseguranca.ipynb
+```
 
-As validações automáticas verificam:
+### Regenerar camada Gold, métricas e relatórios
 
-- unicidade e nulidade da chave `incident_id`
-- duplicatas completas
-- parse de datas
-- cronologia entre incidente, descoberta e divulgação
-- domínios categóricos principais
-- campos numéricos negativos
-- integridade referencial entre tabelas
-- colunas com alta taxa de nulos
+```bash
+python scripts/build_gold_ml_reports.py
+```
 
-## Estratégia da Prata
+### Refatoração PySpark
 
-A camada Prata aplica:
+```bash
+python scripts/pyspark_refactor.py
+```
 
-- limpeza e imputação de nulos
-- padronização textual
-- conversão de datas
-- remoção de duplicatas
-- criação de colunas derivadas
-- criação do label `flag_alto_impacto`
-- geração de um dataset **ML-ready** com colunas de leakage removidas
+O script PySpark lê arquivos Parquet da camada Prata, cria cópias temporárias compatíveis com Spark quando necessário, executa `join`, `groupBy`, função de janela e salva o resultado em Parquet.
 
-## Observações importantes
+## Camadas do pipeline
 
-- `silver_master.parquet` é o dataset consolidado para análise.
-- `silver_master_ml.parquet` é a versão recomendada para tarefas futuras de Machine Learning.
-- O checklist anti-leakage documenta quais colunas foram removidas ou marcadas como inadequadas para modelagem.
-- O projeto teve auxílio de inteligência artificial no seu desenvolvimento. Utilizamos para melhor estruturação dos conhecimentos e estruturação de código.
+### Bronze
 
-## Resumo rápido dos resultados
+- Ingestão dos arquivos CSV.
+- Padronização de nomes de colunas.
+- Persistência em Parquet.
+- Metadados de carga e relatório de qualidade inicial.
 
-- Regras de qualidade executadas: **36**
-- Resultado das regras: **33 PASS / 3 WARN / 0 FAIL**
-- Dataset final analítico: **850 linhas × 93 colunas**
-- Dataset final ML-ready: **850 linhas × 38 colunas**
-- Distribuição do label final: **435 baixo impacto / 415 alto impacto**
+### Prata
+
+- Limpeza e padronização textual.
+- Conversão de datas.
+- Remoção de duplicatas.
+- Criação de variáveis derivadas.
+- Integração das tabelas de incidentes, impacto financeiro e impacto de mercado.
+- Criação do label `flag_alto_impacto`.
+- Remoção de colunas com risco de data leakage na versão `silver_master_ml.parquet`.
+
+### Ouro / ML-ready
+
+- Split treino/teste estratificado.
+- Tratamento de outliers com Winsorization por IQR em `company_revenue_usd` e `employee_count`, com limites calculados apenas no treino.
+- Imputação de nulos com estratégias diferentes para variáveis numéricas, categóricas e booleanas.
+- Encoding com `OrdinalEncoder` e `OneHotEncoder`.
+- Scaling com `RobustScaler`.
+- Persistência de `gold_train.parquet`, `gold_test.parquet` e `preprocessor.pkl`.
+
+## Modelagem
+
+Foram treinados modelos de Árvore de Decisão com configurações distintas e comparados com uma baseline da camada Prata.
+
+Arquivos principais:
+
+- `reports/model_metrics.csv`: métricas dos modelos.
+- `reports/model_comparison_silver_gold.csv`: comparação Prata vs Ouro.
+- `reports/figures/confusion_matrix_gold_decision_tree.png`: matriz de confusão do melhor modelo Gold.
+- `reports/figures/decision_tree_gold_best.png`: visualização da árvore do melhor modelo Gold.
+- `models/decision_tree_gold_best.pkl`: melhor modelo Gold serializado.
+
+## Documentação gerada
+
+- `docs/eda_interpretations.md`: interpretação orientada a decisão das visualizações da EDA.
+- `docs/gold_transformations.csv`: tabela de transformações da camada Ouro.
+- `docs/quality_report_silver_gold.md`: relatório de qualidade das camadas Prata e Ouro.
+- `docs/anti_leakage_checklist.md`: checklist anti-leakage atualizado.
+- `docs/data_lineage.md`: fluxo do pipeline até Gold, modelagem e PySpark.
+- `docs/pyspark_refactor_notes.md`: descrição das etapas refatoradas com PySpark.
+- `docs/lauda_checklist.md`: checklist de aderência aos requisitos técnicos.
+
+## Resultados rápidos
+
+- `silver_master.parquet`: 850 linhas x 93 colunas.
+- `silver_master_ml.parquet`: 850 linhas x 38 colunas.
+- `gold_train.parquet`: 680 linhas x 47 colunas.
+- `gold_test.parquet`: 170 linhas x 47 colunas.
+- Melhor modelo Gold: `gold_tree_depth_6_entropy`.
+- Métricas e comparação estão em `reports/`.

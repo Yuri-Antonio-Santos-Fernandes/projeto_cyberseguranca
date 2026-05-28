@@ -7,7 +7,7 @@
   "num_columns": 36,
   "file_hash_sha256": "9819d9ad6baeadca4c503d1146def6504da32e42b9e14e38b0008b24ffc84225",
   "file_size_bytes": 438941,
-  "ingestion_ts_utc": "2026-05-24T03:03:05.379693+00:00",
+  "ingestion_ts_utc": "2026-05-28T11:02:33.107478+00:00",
   "columns": [
     "incident_id",
     "company_name",

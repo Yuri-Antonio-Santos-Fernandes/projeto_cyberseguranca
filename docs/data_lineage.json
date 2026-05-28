@@ -1,6 +1,6 @@
 {
-  "pipeline": "cybersecurity_bronze_silver_ml",
-  "generated_at_utc": "2026-05-24T03:03:09.937677+00:00",
+  "pipeline": "cybersecurity_bronze_silver_gold_mlready",
+  "generated_at_utc": "2026-05-28T11:02:41.481147+00:00",
   "nodes": [
     {
       "id": "src_inc",
@@ -18,39 +18,24 @@
       "type": "source"
     },
     {
-      "id": "bronze_ingest",
-      "label": "Bronze: ingestão + metadados",
+      "id": "bronze",
+      "label": "Bronze: ingestão + qualidade",
       "type": "process"
-    },
-    {
-      "id": "bronze_quality",
-      "label": "Validações de qualidade",
-      "type": "process"
-    },
-    {
-      "id": "bronze_ok",
-      "label": "Bronze aprovada",
-      "type": "checkpoint"
     },
     {
       "id": "silver_clean",
-      "label": "Prata: limpeza + padronização",
+      "label": "Prata: limpeza + integração",
       "type": "process"
     },
     {
-      "id": "silver_features",
-      "label": "Features + label",
-      "type": "process"
+      "id": "silver_master",
+      "label": "silver_master.parquet",
+      "type": "sink"
     },
     {
       "id": "anti_leakage",
       "label": "Filtro anti-leakage",
       "type": "process"
-    },
-    {
-      "id": "silver_analytics",
-      "label": "silver_master.parquet",
-      "type": "sink"
     },
     {
       "id": "silver_ml",
@@ -59,45 +44,63 @@
     },
     {
       "id": "eda",
-      "label": "Relatórios + gráficos",
+      "label": "EDA orientada a hipóteses",
+      "type": "analysis"
+    },
+    {
+      "id": "gold_preprocess",
+      "label": "Ouro: split + outliers + imputação + encoding + scaling",
+      "type": "process"
+    },
+    {
+      "id": "gold_train",
+      "label": "gold_train.parquet",
       "type": "sink"
+    },
+    {
+      "id": "gold_test",
+      "label": "gold_test.parquet",
+      "type": "sink"
+    },
+    {
+      "id": "dt_models",
+      "label": "Decision Trees + métricas",
+      "type": "model"
+    },
+    {
+      "id": "comparison",
+      "label": "Comparação Prata vs Ouro",
+      "type": "analysis"
+    },
+    {
+      "id": "pyspark",
+      "label": "Refatoração PySpark",
+      "type": "process"
     }
   ],
   "edges": [
     [
       "src_inc",
-      "bronze_ingest"
+      "bronze"
     ],
     [
       "src_fin",
-      "bronze_ingest"
+      "bronze"
     ],
     [
       "src_mkt",
-      "bronze_ingest"
+      "bronze"
     ],
     [
-      "bronze_ingest",
-      "bronze_quality"
-    ],
-    [
-      "bronze_quality",
-      "bronze_ok"
-    ],
-    [
-      "bronze_ok",
+      "bronze",
       "silver_clean"
     ],
     [
       "silver_clean",
-      "silver_features"
+      "silver_master"
     ],
     [
-      "silver_features",
-      "silver_analytics"
-    ],
-    [
-      "silver_features",
+      "silver_clean",
       "anti_leakage"
     ],
     [
@@ -105,8 +108,44 @@
       "silver_ml"
     ],
     [
-      "silver_features",
+      "silver_master",
       "eda"
+    ],
+    [
+      "silver_ml",
+      "gold_preprocess"
+    ],
+    [
+      "gold_preprocess",
+      "gold_train"
+    ],
+    [
+      "gold_preprocess",
+      "gold_test"
+    ],
+    [
+      "gold_train",
+      "dt_models"
+    ],
+    [
+      "gold_test",
+      "dt_models"
+    ],
+    [
+      "silver_ml",
+      "comparison"
+    ],
+    [
+      "dt_models",
+      "comparison"
+    ],
+    [
+      "silver_master",
+      "pyspark"
+    ],
+    [
+      "silver_ml",
+      "pyspark"
     ]
   ]
 }

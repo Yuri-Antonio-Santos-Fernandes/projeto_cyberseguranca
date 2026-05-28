@@ -5,3 +5,6 @@ pyarrow
 notebook
 jupyter
 seaborn
+scikit-learn
+scipy
+pyspark
